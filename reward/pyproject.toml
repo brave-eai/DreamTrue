@@ -1,0 +1,83 @@
+[project]
+name = "ms-swift-qwen"
+version = "0.1.0"
+description = "Embodied video reward model (Qwen3.5 + ms-swift)"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+
+dependencies = [
+    "ms-swift==4.2.3",
+    "qwen-vl-utils>=0.0.14",
+    "eva-decord>=0.6.0",
+    "liger-kernel",
+    "triton==3.7.1",
+    "lpips",
+    "msgspec",
+    "einops",
+    "opencv-python",
+    "av",
+    "pillow",
+    "tqdm",
+    "h5py",
+    "hdf5plugin",
+    "zarr",
+    "pyyaml",
+    "colorlog",
+    "tensorboard",
+    "numpy-quaternion==2024.0.13",
+]
+
+[project.optional-dependencies]
+cuda = [
+    # --extra cuda
+    "torch==2.13.0",
+    "torchvision==0.28.0",
+    "flash-attn==2.8.3.post1",
+    "flash-linear-attention[cuda]",
+]
+rocm = [
+    # --extra rocm
+    "torch==2.13.0",
+    "torchvision==0.28.0",
+    "triton-rocm==3.7.1",
+    "flash-attn==2.8.3.post1",
+    "flash-linear-attention[rocm]",
+]
+
+[tool.uv]
+conflicts = [[{ extra = "cuda" }, { extra = "rocm" }]]
+no-build-isolation-package = ["flash-attn"]
+
+[tool.uv.extra-build-dependencies]
+flash-attn = [
+    { requirement = "torch", match-runtime = true },
+    "packaging",
+    "setuptools",
+    "wheel",
+    "ninja",
+    "psutil",
+]
+
+[tool.uv.extra-build-variables]
+flash-attn = { FLASH_ATTENTION_TRITON_AMD_ENABLE = "TRUE", FLASH_ATTENTION_FORCE_BUILD = "TRUE", MAX_JOBS = "32" }
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cuda", extra = "cuda" },
+    { index = "pytorch-rocm", extra = "rocm" },
+]
+torchvision = [
+    { index = "pytorch-cuda", extra = "cuda" },
+    { index = "pytorch-rocm", extra = "rocm" },
+]
+triton-rocm = [{ index = "pytorch-rocm", extra = "rocm" }]
+
+[[tool.uv.index]]
+name = "pytorch-rocm"
+url = "https://download.pytorch.org/whl/rocm7.2"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true

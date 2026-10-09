@@ -1,0 +1,10 @@
+# Eval config: joint L1+L2+L3 (group pseudo-dims; group value = worst member). raw view, no pixel ops.
+salt: 0
+dims:
+  L1+L2+L3: 1.0
+
+views:
+  raw:
+    w: 1.0
+
+pixel_ops: []

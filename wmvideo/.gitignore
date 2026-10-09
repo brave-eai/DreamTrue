@@ -1,0 +1,50 @@
+# Model files (too large for git)
+/models
+/output
+# Data files (too large for git)
+/data
+/tmp
+/tools/logs/
+/tools/example*/
+# Output files
+output_videos/
+.qoder/
+
+# Python build artifacts
+*.egg-info/
+diffsynth.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+dist/
+eggs/
+*.egg
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment
+.env
+.venv/
+venv/
+
+outputs/
+*.pkl
+*_samples.json
+.history/
+xdl_config_*
+.claude/
+.codex/

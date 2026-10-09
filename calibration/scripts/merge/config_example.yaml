@@ -1,0 +1,69 @@
+# Example dataset config for scripts/merge (consumed by the downstream
+# training / inference repositories).
+#
+# All paths are resolved relative to the current working directory, so run
+# merge from the directory that contains the data layout, e.g.:
+#
+#   data/        dataset checkout (AgibotDataset root)
+#   conditions/  rendered condition files, one directory per data_key
+#   scores/      calc-score outputs (optional quality gating)
+#
+#   cd /path/to/layout
+#   python -m scripts.merge.main /path/to/AgibotWorld/scripts/merge/config_example.yaml
+#
+# Replace them with absolute paths if you prefer.
+
+split:
+  seed: 42
+  train: 95
+  val: 5
+
+sources:
+  # base (recorded-action) conditions
+  - data_class: AgibotDataset
+    data_root: data/AgiBotWorld-Beta-hfd
+    condition_root: conditions/AgiBotWorld-Beta/base
+    condition_file: condition-agibot_action.h5
+    score_root: scores/AgiBotWorld-Beta/base
+    score_file: condition-agibot_action.score.json
+
+  # counterfactual (retreat) condition variants, quality-gated by the base scores
+  - data_class: AgibotDataset
+    data_root: data/AgiBotWorld-Beta-hfd
+    condition_root: conditions/AgiBotWorld-Beta/retreat-a
+    condition_file: 'condition-agibot_action.*\.h5'
+    score_root: scores/AgiBotWorld-Beta/base
+    score_file: condition-agibot_action.score.json
+
+  - data_class: AgibotDataset
+    data_root: data/AgiBotWorld-Beta-hfd
+    condition_root: conditions/AgiBotWorld-Beta/retreat-b
+    condition_file: 'condition-agibot_action.*\.h5'
+    score_root: scores/AgiBotWorld-Beta/base
+    score_file: condition-agibot_action.score.json
+
+output_dir: merge_output
+
+filter:
+  children:
+    - match: { _class: DataClassFilter, pattern: "^AgibotDataset$" }
+      children:
+        - match: { _class: SkillFilter, pattern: "(?i)(?P<skill>^pick$)?" }
+          children:
+            - match: { _class: ConditionFileFilter, pattern: '^condition-(?P<ds>agibot)_action((?P<tag>-r[rz](?:12|10|8|6))\D.*)?\.h5$' }
+              children:
+                - match: { _class: DataKeyFilter, pattern: "^(660|536|549|679|554|705|577|578|710|595|727|730|475|731|608|620|749|622|753|446|739|740)/.*$" }
+                  output: null
+                - match: { _class: IndicesCoverClipFilter }
+                  output: "{ds}{tag}_{skill}"
+
+meta_defaults:
+  threeviews_concat: true
+  use_plucker: true
+  detail_prompt: true
+  pad_short_actions: true
+
+meta_info:
+  "agibot.*":
+    type: agibot
+    target_size: 50

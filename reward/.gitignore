@@ -1,0 +1,17 @@
+/data/
+/data-old/
+output
+eval_results*/
+uv.lock
+.claude/
+.vscode/
+.history/
+.codex/
+.qoder/
+*.pyc
+*.tar
+results.txt
+out/
+outputs/
+logs/
+.nfs*

@@ -1,0 +1,124 @@
+[project]
+name = "sapien-envs"
+version = "0.1.0"
+requires-python = "==3.12.*"
+
+dependencies = [
+    "setuptools<70.0.0",
+    "six",
+    "numpy==1.26.4",
+    "numba==0.63.1",
+    "scipy>=1.15.3",
+    "scipy-stubs",
+    "einops",
+    "opencv-python",
+    "av",
+    "matplotlib",
+    "pillow>=12.0.0",
+    "tqdm",
+    "h5py",
+    "hdf5plugin",
+    "zarr",
+    "pyarrow==17.0.0",
+    "pyyaml",
+    "colorlog",
+    "tensorboard",
+    "numpy-quaternion==2024.0.13",
+    "trimesh",
+    "transforms3d",
+    "requests",
+    "pysocks",
+    "lxml",
+    "openpyxl",
+    "dill",
+    "lz4",
+    "zstandard",
+    "openexr",
+    "isort",
+    "gitignore-parser",
+    "pyperclip",
+    "psutil>=5.8.0",
+    "timm",
+    "polars>=0.20.0",
+    "rich>=14.2.0",
+    "ftfy",
+    "markdown-it-py",
+    "mdurl",
+    "pygments",
+    "regex",
+    "wcwidth",
+    "pyglet<2",
+    "modelscope",
+    "cachetools",
+    "pycocotools",
+    "scikit-learn",
+    "alibabacloud-oss-v2",
+    "python-redis-lock",
+    "sapien==3.0.2",
+    "toppra==0.6.0; sys_platform == 'linux'",
+    "mplib==0.2.1; sys_platform == 'linux'",
+    "dataclasses>=0.8",
+    "ultralytics @ git+https://github.com/brave-eai/ultralytics.git@8eafe75359df73fca4755cb478d8d00dfa75eae4",
+    "clip @ git+https://github.com/ultralytics/CLIP.git@88ade288431a46233f1556d1e141901b3ef0a36b",
+    "romav2 @ git+https://github.com/brave-eai/RoMaV2.git@a02616a97168a250f2521dd140567d8952da3ac4",
+]
+
+[project.optional-dependencies]
+cuda = [
+    "torch==2.7.0",
+    "torchvision==0.22.0",
+    "torchaudio==2.7.0",
+    "fused-local-corr==0.2.4",
+    "romav2[fused-local-corr] @ git+https://github.com/brave-eai/RoMaV2.git@a02616a97168a250f2521dd140567d8952da3ac4",
+]
+rocm = [
+    "torch==2.7.0",
+    "torchvision==0.22.0",
+    "torchaudio==2.7.0",
+    "pytorch-triton-rocm",
+]
+cpu = ["torch==2.7.0", "torchvision==0.22.0", "torchaudio==2.7.0"]
+mps = ["torch==2.7.0", "torchvision==0.22.0", "torchaudio==2.7.0"]
+
+[tool.uv]
+conflicts = [
+    [
+        { extra = "cuda" },
+        { extra = "rocm" },
+        { extra = "cpu" },
+        { extra = "mps" },
+    ],
+]
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cuda", extra = "cuda" },
+    { index = "pytorch-rocm", extra = "rocm" },
+    { index = "pytorch-cpu", extra = "cpu" },
+]
+torchvision = [
+    { index = "pytorch-cuda", extra = "cuda" },
+    { index = "pytorch-rocm", extra = "rocm" },
+    { index = "pytorch-cpu", extra = "cpu" },
+]
+torchaudio = [
+    { index = "pytorch-cuda", extra = "cuda" },
+    { index = "pytorch-rocm", extra = "rocm" },
+    { index = "pytorch-cpu", extra = "cpu" },
+]
+pytorch-triton-rocm = [{ index = "pytorch-rocm", extra = "rocm" }]
+
+[[tool.uv.index]]
+name = "pytorch-rocm"
+url = "https://download.pytorch.org/whl/rocm6.3"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true

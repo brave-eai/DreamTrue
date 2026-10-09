@@ -1,0 +1,3 @@
+[submodule "calibration/assets"]
+	path = calibration/assets
+	url = https://www.modelscope.cn/datasets/huoxingdawang/DreamTrueAssets.git

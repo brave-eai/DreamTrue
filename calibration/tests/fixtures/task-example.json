@@ -1,0 +1,16 @@
+[
+    {
+        "data_key": "000/000000",
+        "calib_key": "000/000000/optimize",
+        "calib_hash": "1d863d91091e805df33fc2c8826ec9f947779b615218ae0c63cfa84d725b230c",
+        "meta_data": {
+            "score": {
+                "head": 0.9,
+                "hand_left": 0.9
+            }
+        },
+        "use_state": false,
+        "modifications": [],
+        "repo_dir": "000/000000"
+    }
+]

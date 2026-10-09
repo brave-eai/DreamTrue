@@ -1,0 +1,16 @@
+accelerate
+safetensors
+einops
+peft==0.10.0
+datasets
+imageio
+imageio-ffmpeg
+pandas
+ftfy
+sentencepiece
+protobuf
+modelscope
+h5py
+hdf5plugin
+yq
+deepspeed
